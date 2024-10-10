@@ -1,25 +1,23 @@
-<!-- coder mon footer  -->
-<footer class="site__footer">
-    <!-- menu de navigation wordpress footer -->
-    <?php wp_nav_menu(
-        array(
-            'theme_location' => 'footer',
-            'container' => 'ul',
-            'menu_class' => 'site__footer__menu', // ma classe personnalisée 
-        )
-    );
+</main>
 
-    ?>
-    <?php
-    // integration de la popup de contact
-    get_template_part('templates_parts/popup_contact') ?>
+<?php
+    get_template_part('modale');
+    get_template_part('lightbox');
+?>
 
-    <!-- lightbox -->
+<footer class="footer">
+  <nav class="footer__nav">
     <?php
-    get_template_part('templates_parts/lightbox');
-    ?>
+        if (has_nav_menu('primary_menu')) {
+            wp_nav_menu(array('theme_location' => 'footer_menu',));
+        } ?>
+    <ul>
+      <li>Tous droits réservés</li>
+    </ul>
+  </nav>
+  <?php wp_footer() ?>
 </footer>
-<?php wp_footer(); ?>
 
 </body>
+
 </html>

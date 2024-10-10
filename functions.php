@@ -49,58 +49,46 @@ if (!function_exists('nathalie_mota_theme_setup')) {
 
 add_action('wp_enqueue_scripts', 'theme_scripts');
 
-function filtre_load_photos_ajax()
-{
-    $paged = isset($_POST['page']) ? intval($_POST['page']) + 1 : 1;
-
-    // Vérifier et sécuriser les valeurs des filtres
-    $cat_filter = isset($_POST['champ_categorie']) ? sanitize_text_field($_POST['champ_categorie']) : '';
-    $format_filter = isset($_POST['champ_format']) ? sanitize_text_field($_POST['champ_format']) : '';
-
-    $args = array(
-        'post_type' => 'photos',
-        'posts_per_page' => 12,
-        'paged' => $paged,
-        'tax_query' => array(),
-        'meta_query' => array(),
-    );
-
-    if (!empty($cat_filter)) {
-        $args['tax_query'][] = array(
-            'taxonomy' => 'categorie',
-            'field' => 'slug',
-            'terms' => $cat_filter,
-        );
-    }
-
-    if (!empty($format_filter)) {
-        $args['tax_query'][] = array(
-            'taxonomy' => 'format',
-            'field' => 'slug',
-            'terms' => $format_filter,
-        );
-    }
-
-
-    $photos_query = new WP_Query($args);
-
-    ob_start();
-
-    if ($photos_query->have_posts()) {
-        while ($photos_query->have_posts()) {
-            $photos_query->the_post();
-            // Structure du catalogue
-            get_template_part('template-parts/content/container_photos');
+function displayTaxonomies($taxonomie) {
+    if($terms = get_terms(array(
+        'taxonomy' => $taxonomie,
+        'orderby' => 'name'
+    ))) {
+        foreach ( $terms as $term ) {
+            echo '<option class="js-filter-item" value="' . $term->slug . '">' . $term->name . '</option>';
         }
     }
-
-    wp_reset_postdata();
-
-    $response = ob_get_clean();
-    echo $response;
-    exit;
 }
-
-// Action WordPress pour la requête AJAX
-add_action('wp_ajax_filtre_load_photos_ajax', 'filtre_load_photos_ajax');
-add_action('wp_ajax_nopriv_filtre_load_photos_ajax', 'filtre_load_photos_ajax');
+function displayImages($galerie, $exit) {
+    if($galerie->have_posts()) {
+        while ($galerie->have_posts()) { ?>
+<?php $galerie->the_post(); ?>
+<div class="colonne">
+  <div class="rangee">
+    <img class="img-medium" src="<?php echo the_post_thumbnail_url(); ?>" />
+    <div>
+      <div class="img-hover">
+        <img class="btn-plein-ecran" src="<?php echo get_template_directory_uri(); ?>/assets/images/fullscreen.png"
+          alt="Icône de plein écran" />
+        <a href="<?php echo get_post_permalink(); ?>">
+          <img class="btn-oeil" src="<?php echo get_template_directory_uri(); ?>/assets/images/eye_icon.png"
+            alt="Icône en fome d'oeil" />
+        </a>
+        <div class="img-infos">
+          <p><?php the_title(); ?></p>
+          <p><?php echo strip_tags(get_the_term_list($galerie->ID, 'categories_photo')); ?></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <?php
+        }
+    }
+    else {
+        echo "";
+    }
+    wp_reset_postdata();
+    if ($exit) {
+        exit();
+    }
+}
