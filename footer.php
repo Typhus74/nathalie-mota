@@ -8,15 +8,19 @@
 <footer class="footer">
   <nav class="footer__nav">
     <?php
-        if (has_nav_menu('primary_menu')) {
-            wp_nav_menu(array('theme_location' => 'footer_menu',));
-        } ?>
-    <ul>
-      <li>Tous droits réservés</li>
-    </ul>
+       wp_nav_menu(
+        array(
+            
+            'theme_location' => 'footer',
+            'container' => 'ul',
+            'menu_class' => 'site__footer__menu', // ma classe personnalisée 
+            )
+        );
+        ?>
   </nav>
+  </footer>
   <?php wp_footer() ?>
-</footer>
+
 
 </body>
 

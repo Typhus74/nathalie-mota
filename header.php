@@ -23,26 +23,33 @@
                 wp_nav_menu(array('theme_location' => 'primary_menu',));
             } ?>
         <ul>
-          <li class="btn-modale">Contact</li>
+			<li class="btn-modale">Accueil</li>
+			<li class="btn-modale">À Propos</li>
+          	<li class="btn-modale">Contact</li>
         </ul>
       </nav>
     </section>
 
     <section class="header header-desktop">
-      <div>
-        <img class="header__heading" src="<?php echo get_template_directory_uri(); ?>/assets/images/site_logo.png"
-          alt="Logo de Nathalie Mota" />
-        <img class="header__btn-menu" src="<?php echo get_template_directory_uri(); ?>/assets/images/menu_icon.png"
-          alt="Icône d'ouverture de menu" />
-      </div>
+    	<div>
+			<a href="<?php echo home_url('/'); ?>">
+				<img class="header__heading" src="<?php echo get_template_directory_uri(); ?>/assets/images/site_logo.png"
+					alt="Logo de Nathalie Mota" />
+					<img class="header__btn-menu" src="<?php echo get_template_directory_uri(); ?>/assets/images/menu_icon.png"
+				alt="Icône d'ouverture de menu" />
+		</a>
+    	</div>
       <nav class="header__nav header-desktop__nav">
-        <?php
-            if (has_nav_menu('primary_menu')) {
-                wp_nav_menu(array('theme_location' => 'primary_menu',));
-            } ?>
-        <ul>
-          <li class="btn-modale">Contact</li>
-        </ul>
+	  		<?php
+				/* affichage du menu récupéré dans wordpress */
+				wp_nav_menu(
+					array(
+						'theme_location' => 'main',
+						'container' => '', // afin d'éviter d'avoir une div autour 
+						'menu_class' => 'navigation--menu', // ma classe personnalisée 
+					)
+				);
+			?>
       </nav>
     </section>
   </header>
