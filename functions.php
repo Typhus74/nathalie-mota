@@ -1,94 +1,119 @@
-<?php
-//* Configuration du thème
+    <?php
 
-if (!function_exists('nathalie_mota_theme_setup')) {
-    function nathalie_mota_theme_setup()
-    {
-        // Ajouter la prise en charge des images mises en avant
-        add_theme_support('post-thumbnails');
-
-        // Ajouter automatiquement le titre du site dans l'en-tête du site
+    // Ajout des fonctionnalités du thème
+    add_action('after_setup_theme', function() {
+        // Prise en charge des balises de titre <title> du thème
         add_theme_support('title-tag');
-
-        // Déclarer deux emplacements de menu : menu principal et footer
+    
+        // Prise en charge des menus personnalisés
+        add_theme_support('menus');
+    
+        // Enregistrement des emplacements de menus : Menu principal et Menu pied de page
         register_nav_menus(array(
-            'main' => 'Menu principal',
-            'footer' => 'Bas de page',
+            'primary_menu' => __('Menu Principal'),
+      'footer_menu'  => __('Menu Pied de Page'),
         ));
-        // Activer la prise en charge des formats
-        add_theme_support('post-formats', array('aside', 'gallery', 'quote', 'image', 'video',));
-    }
-    add_action('after_setup_theme', 'nathalie_mota_theme_setup');
-};
-
-    function theme_scripts()
-    {
+    });
+    
+    function theme_scripts() {
         // CSS
         wp_enqueue_style('theme-style', get_template_directory_uri() . '/style.css', array(), filemtime(get_template_directory() . '/style.css'));
 
         //SCSS
         wp_enqueue_style('main-style', get_template_directory_uri() . '/main.css', array(), filemtime(get_template_directory() . '/main.css'));
 
-        // JS
-        wp_enqueue_script('theme-script', get_template_directory_uri() . '/assets/js/index.js', array('jquery'), '1.0', true);
-
-        // script personnalisé pour la pagination Ajax
-        wp_enqueue_script('custom-ajax', get_template_directory_uri() . '/assets/js/custom-ajax.js', array('jquery'), '1.0', true);
-        wp_localize_script('custom-ajax', 'myAjax', array('ajaxurl' => admin_url('admin-ajax.php')));
-
-        // script lightbox
-        wp_enqueue_script('lightbox', get_template_directory_uri() . '/assets/js/lightbox.js', array('jquery'), '1.0', true);
-
-        // Bibliothèque Font Awesome
-        wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array());
-
-        // Bibliothèque Select2 pour les selects de tri
-        wp_enqueue_script('select2-js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', array('jquery'), '4.0.13', true);
-        wp_enqueue_style('select2-css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css', array());
+      // Enqueue les styles du thème parent et le style personnalisé généré à partir de Sass
     }
-
-add_action('wp_enqueue_scripts', 'theme_scripts');
-
-function displayTaxonomies($taxonomie) {
-    if($terms = get_terms(array(
-        'taxonomy' => $taxonomie,
-        'orderby' => 'name'
-    ))) {
-        foreach ( $terms as $term ) {
-            echo '<option class="js-filter-item" value="' . $term->slug . '">' . $term->name . '</option>';
+    add_action('wp_enqueue_scripts', 'theme_scripts');
+    
+    // Enqueue le script "script.js" dépendant de jQuery et utilise AJAX
+    function custom_enqueue_scripts() {
+        wp_enqueue_script('script', get_template_directory_uri() . '/assets/js/script.js', array('jquery'), '', true);
+    
+        // Localize the script with the AJAX URL
+        wp_localize_script('script', 'my_ajax_obj', array('ajax_url' => admin_url('admin-ajax.php')));
+    }
+    add_action('wp_enqueue_scripts', 'custom_enqueue_scripts');
+    // Prise en charge des images mises en avant
+    add_theme_support('post-thumbnails');
+    
+    function displayTaxonomies($nomTaxonomie) {
+        if($terms = get_terms(array(
+            'taxonomy' => $nomTaxonomie,
+            'orderby' => 'name'
+        ))) {
+            foreach ( $terms as $term ) {
+                echo '<option class="js-filter-item" value="' . $term->slug . '">' . $term->name . '</option>';
+            }
         }
     }
-}
-function displayImages($galerie, $exit) {
-    if($galerie->have_posts()) {
-        while ($galerie->have_posts()) { ?>
-<?php $galerie->the_post(); ?>
-<div class="colonne">
-  <div class="rangee">
-    <img class="img-medium" src="<?php echo the_post_thumbnail_url(); ?>" />
-    <div>
-      <div class="img-hover">
-        <img class="btn-plein-ecran" src="<?php echo get_template_directory_uri(); ?>/assets/images/fullscreen.png"
-          alt="Icône de plein écran" />
-        <a href="<?php echo get_post_permalink(); ?>">
-          <img class="btn-oeil" src="<?php echo get_template_directory_uri(); ?>/assets/images/eye_icon.png"
-            alt="Icône en fome d'oeil" />
-        </a>
-        <div class="img-infos">
-          <p><?php the_title(); ?></p>
-          <p><?php echo strip_tags(get_the_term_list($galerie->ID, 'categories_photo')); ?></p>
+    
+    
+    
+    function filter() {
+        $myAjaxRequest = new WP_Query(array(
+            'post_type' => 'photos',
+            'orderby' => 'date',
+            'order' => $_POST['orderDirection'],
+            'posts_per_page' => 4,
+            'paged' => $_POST['page'],
+            'tax_query' =>
+                array(
+                    'relation' => 'AND',
+                    $_POST['categorieSelection'] != "all" ?
+                        array(
+                            'taxonomy' => $_POST['categorieTaxonomie'],
+                            'field' => 'slug',
+                            'terms' => $_POST['categorieSelection'],
+                        )
+                    : '',
+                    $_POST['formatSelection'] != "all" ?
+                        array(
+                            'taxonomy' => $_POST['formatTaxonomie'],
+                            'field' => 'slug',
+                            'terms' => $_POST['formatSelection'],
+                        )
+                    : '',
+                )
+            )
+        );
+        displayImages($myAjaxRequest, true);
+    }
+    add_action('wp_ajax_nopriv_filter', 'filter');
+    add_action('wp_ajax_filter', 'filter');
+    
+    
+    
+    function displayImages($galerie, $exit) {
+        if($galerie->have_posts()) {
+            while ($galerie->have_posts()) { ?>
+    <?php $galerie->the_post(); ?>
+    <div class="colonne">
+      <div class="rangee">
+        <img class="img-medium" src="<?php echo the_post_thumbnail_url(); ?>" />
+        <div>
+          <div class="img-hover">
+            <img class="btn-plein-ecran" src="<?php echo get_template_directory_uri(); ?>/assets/images/fullscreen.png"
+              alt="Icône de plein écran" />
+            <a href="<?php echo get_post_permalink(); ?>">
+              <img class="btn-oeil" src="<?php echo get_template_directory_uri(); ?>/assets/images/eye_icon.png"
+                alt="Icône en fome d'oeil" />
+            </a>
+            <div class="img-infos">
+              <p><?php the_title(); ?></p>
+              <p><?php echo strip_tags(get_the_term_list($galerie->ID, 'categories_photo')); ?></p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div> <?php
+    </div> <?php
+            }
+        }
+        else {
+            echo "";
+        }
+        wp_reset_postdata();
+        if ($exit) {
+            exit();
         }
     }
-    else {
-        echo "";
-    }
-    wp_reset_postdata();
-    if ($exit) {
-        exit();
-    }
-}
