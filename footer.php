@@ -1,26 +1,35 @@
-</main>
-
 <?php
-    get_template_part('modale');
-    get_template_part('lightbox');
+
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
 ?>
 
-<footer class="footer">
-  <nav class="footer__nav">
-    <?php
-       wp_nav_menu(
+
+<!-- coder mon footer  -->
+<footer class="site__footer">
+    <!-- menu de navigation wordpress footer -->
+    <?php wp_nav_menu(
         array(
-            
             'theme_location' => 'footer',
             'container' => 'ul',
             'menu_class' => 'site__footer__menu', // ma classe personnalisée 
-            )
-        );
-        ?>
-  </nav>
-  </footer>
-  <?php wp_footer() ?>
+        )
+    );
 
+    ?>
+    <?php
+    // integration de la popup de contact
+    get_template_part('templates_parts/popup_contact') ?>
+
+    <!-- lightbox -->
+    <?php
+    get_template_part('templates_parts/lightbox');
+    ?>
+</footer>
+<?php wp_footer(); ?>
 
 </body>
 
