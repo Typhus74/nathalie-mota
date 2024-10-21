@@ -114,12 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //verifie que contactBtn existe pour executer le code
     if (contactButton) {
-        const refPhotoField = contactButton.dataset.reference;
-        const reference = document.getElementById('reference'); // Champ de référence de la photo dans le formulaire
+        const reference = contactButton.dataset.reference;
+       
+        const refFormField = document.getElementById('ref-field'); // Champ de référence de la photo dans le formulaire
 
-        if (reference) {
-            refPhotoField.value = reference;
-        }
+        refFormField.value = reference;
     }
 
     document.addEventListener('click', function (event) {
