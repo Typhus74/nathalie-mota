@@ -89,7 +89,7 @@
                     <div class="annee">
                         <!-- Menu déroulant pour la tri par année (champs ACF)"  -->
                         <select name="annee" id="annee" class="js-example-basic-single select2-dropdown-below">
-                            <option value="">Trier par</option>
+                        <option value="">Trier par</option>
                             <?php foreach ($annees as $annee) : ?>
                                 <option value="<?php echo $annee; ?>"><?php echo $annee; ?></option>
                             <?php endforeach; ?>

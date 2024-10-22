@@ -16,7 +16,7 @@ if ($categories && !is_wp_error($categories)) {
 <div class="post-container">
     <img src="<?php echo $thumbnail_url; ?>" alt="<?php echo $post_title; ?>">
     <div class="overlay">
-        <div class="reference"><?php echo $reference; ?></div>
+        <div class="title"><?php echo $post_title; ?></div>
         <div class="categorie"><?php echo $categorie_name; ?></div>
         <div class="eye-icon">
             <a href="<?php echo $post_url; ?>">

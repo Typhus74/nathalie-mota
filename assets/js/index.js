@@ -84,7 +84,7 @@ if (arrowRight) {
 //* Popup contact
 
 document.addEventListener('DOMContentLoaded', function () {
-    const contactLink = document.querySelector('a[href="#contact"]');
+    const contactLink = document.querySelector('#menu-item-292');
     const contactButton = document.querySelector('.btn-contact');
     const modalContainer = document.querySelector('.modal-container');
     const modalContent = document.querySelector('.modal-content');
