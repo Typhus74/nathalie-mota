@@ -44,6 +44,7 @@ jQuery(function ($) {
     const format = $("#formats").val();
     const annee = $("#annee").val();
 
+
     // Effectuer la requête Ajax
     $.ajax({
       url: myAjax.ajaxurl,

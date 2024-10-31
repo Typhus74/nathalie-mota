@@ -3,9 +3,7 @@
 //* //* Récupérer les champs ACF
 $reference = get_field('reference');
 $types = get_field('type');
-
-
-$annee = get_field('annee');
+$annee = get_the_date('Y');
 
 
 //* Récupérer les termes de la taxonomie "catégorie"
@@ -53,18 +51,18 @@ if ($formats && !is_wp_error($formats)) {
         <!-- slider miniature -->
         <div class="navigation-miniature">
             <?php
-            $current_post_id = get_the_ID();
+            $current_post_id = get_the_ID(); //Récupère l'ID du post actuel.
 
-            $args_thumbnails_slider = array(
+            $args_thumbnails_slider = array( // Définit les arguments pour la requête du slider de miniatures
                 'post_type' => 'photos',
                 'posts_per_page' => -1,
                 'post__not_in' => array($current_post_id), // Exclure l'id de la publication actuelle
             );
 
-            $thumbnails_slider = new WP_Query($args_thumbnails_slider);
+            $thumbnails_slider = new WP_Query($args_thumbnails_slider); //Crée une nouvelle requête WordPress pour les miniatures.
 
             if ($thumbnails_slider->have_posts()) {
-                while ($thumbnails_slider->have_posts()) {
+                while ($thumbnails_slider->have_posts()) { // Titre du post.
                     $thumbnails_slider->the_post();
 
                     // récupere les infos : image mise en avant par rapport à l'id (thumbnail_url), url du post, titre
@@ -115,16 +113,16 @@ if ($formats && !is_wp_error($formats)) {
                     'post__not_in' => array(get_the_ID()), // Exclure l'id de la publication actuelle
                 );
 
-                $related_photos = new WP_Query($args_related_photos);
+                $related_photos = new WP_Query($args_related_photos);// Crée une nouvelle requête WordPress pour obtenir les photos liées
 
                 if ($related_photos->have_posts()) {
-                    while ($related_photos->have_posts()) {
+                    while ($related_photos->have_posts()) { //Boucle à travers les résultats de la requête
                         $related_photos->the_post();
 
                         // structure du catalague
                         get_template_part('templates_parts/content/container_photos');
                     }
-                    wp_reset_postdata();
+                    wp_reset_postdata(); //Réinitialise les données du post après la boucle
                 }
                 ?>
             </div>

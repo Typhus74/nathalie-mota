@@ -2,12 +2,12 @@ console.log('lightbox chargée')
 //* Lightbox
 
 document.addEventListener("DOMContentLoaded", function () {
-  const lightboxContainer = document.querySelector(".lightbox");
-  const lightboxImage = lightboxContainer.querySelector(".lightbox-image");
+  const lightboxContainer = document.querySelector(".lightbox"); // représente le conteneur principal de la lightbox.
+  const lightboxImage = lightboxContainer.querySelector(".lightbox-image"); //l'image affichée dans la lightbox
   const lightboxReference = lightboxContainer.querySelector(".reference");
   const lightboxCategorie = lightboxContainer.querySelector(".categorie");
   const lightboxClose = lightboxContainer.querySelector(".close");
-  const cataloguePhotosContainer = document.querySelector(".catalogue-photos");
+  const cataloguePhotosContainer = document.querySelector(".catalogue-photos"); //le conteneur des photos dans le catalogue.
   const prevButton = lightboxContainer.querySelector(".previous");
   const nextButton = lightboxContainer.querySelector(".next");
 
@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const allPostContainers = Array.from(
       cataloguePhotosContainer.querySelectorAll(".post-container")
     );
-    let currentImageIndex;
+    let currentImageIndex; //stocker l'index de l'image actuellement affichée dans la lightbox
 
     function openLightbox(element) {
-      lightboxContainer.classList.add("open");
+      lightboxContainer.classList.add("open"); //utilisateur clique sur une image du catalogue pour l'ouvrir dans la lightbox
 
       // Récupérer les attributs des éléments de l'image
       const reference = element

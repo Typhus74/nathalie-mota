@@ -29,6 +29,8 @@
         $args_filters = array(
             'post_type' => 'photos',
             'posts_per_page' => -1,
+            'order'=>'DESC',
+            'orderby'=>'date',
         );
         $get_custom_filtres = new WP_Query($args_filters);
 
@@ -89,9 +91,9 @@
                     <div class="annee">
                         <!-- Menu déroulant pour la tri par année (champs ACF)"  -->
                         <select name="annee" id="annee" class="js-example-basic-single select2-dropdown-below">
-                        <option value="">Trier par</option>
-                        <option value="DESC">Au plus recents</option>
-                        <option value="">Au plus vieux</option>
+                            <option value="">Trier par</option>
+                            <option value="DESC">à partir des plus récentes</option>
+                            <option value="ASC">à partir des plus anciennes</option>
                         </select>
                     </div>
 
@@ -109,6 +111,8 @@
                 'post_type' => 'photos',
                 'posts_per_page' => 12,
                 'page' => $page,
+                'order'=>'DESC',
+                'orderby'=>'date',
             );
 
             $custom_catalogue_photos = new WP_Query($args_photos);

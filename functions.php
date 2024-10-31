@@ -63,6 +63,7 @@ function filtre_load_photos_ajax()
         'paged' => $paged,
         'tax_query' => array(),
         'meta_query' => array(),
+        'order' => 'DESC',
     );
 
     if (!empty($cat_filter)) {
@@ -82,16 +83,14 @@ function filtre_load_photos_ajax()
     }
 
     if (!empty($annee_filter)) {
-        $args['meta_query'][] = array(
-            'key' => 'annee',
-            'value' => $annee_filter,
-            'compare' => '=',
-        );
+        $args['order'] = $annee_filter;
     }
 
     $photos_query = new WP_Query($args);
 
     ob_start();
+
+//var_dump($annee_filter);
 
     if ($photos_query->have_posts()) {
         while ($photos_query->have_posts()) {
