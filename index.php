@@ -117,13 +117,13 @@
 
             $custom_catalogue_photos = new WP_Query($args_photos);
 
-            if ($custom_catalogue_photos->have_posts()) {
+            if ($custom_catalogue_photos->have_posts()) { //instance de WP_Query avec les arguments spécifiés dans $args_photos.
                 while ($custom_catalogue_photos->have_posts()) {
-                    $custom_catalogue_photos->the_post();
+                    $custom_catalogue_photos->the_post(); //Si des articles sont trouvés, cette boucle les parcourt un par un.
 
                     /* $displayed_photos[] = get_the_ID(); */
 
-                    // structure du catalague
+                    // structure du catalogue
                     get_template_part('templates_parts/content/container_photos');
                 }
                 wp_reset_postdata();

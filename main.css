@@ -1,3 +1,15 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("assets/fonts/Space_Mono/SpaceMono-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+}
+
 /* Header - Footer */
 header {
   padding-inline: 9.13rem;
@@ -127,7 +139,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   }
 }
 .site__footer {
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -265,7 +277,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
 }
 .content .contact .btn {
   display: flex;
-  width: 272px;
+  width: 265px;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -306,11 +318,11 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 164px;
 }
 .content .navigation-miniature a {
   display: block;
   width: 7rem;
-  height: 6rem;
   margin: 0 auto;
 }
 .content .navigation-miniature a img {
@@ -318,18 +330,17 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   height: 100%;
   
      object-fit: cover;
-  aspect-ratio: 1/1;
+  
 }
 .content .navigation-miniature .arrows {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  padding-top: 12px;
 }
 .content .navigation-miniature .arrows .arrow-left,
 .content .navigation-miniature .arrows .arrow-right {
   color: #000;
   cursor: pointer;
+  width: 100%;
 }
 @media screen and (max-width: 465px), screen and (max-width: 768px), screen and (max-width: 1024px) {
   .content .navigation-miniature {
@@ -342,7 +353,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   height: auto;
   border-top: 1px solid #000;
   padding-top: 4rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   /* bouton single post toutes les photos */
 }
 @media screen and (max-width: 465px) {
@@ -365,7 +376,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
 }
 .content .photo-apparentee .btn-photos {
   display: flex;
-  width: 272px;
+  width: 265px;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -395,11 +406,9 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   width: 100%;
   gap: 20px 37px;
   justify-content: center;
-  margin: 0 auto;
-  /* @media screen and (max-width:$laptop) {
-      width: 100%;
-  } */
-}
+  margin-bottom: 50px;
+} 
+
 @media screen and (max-width: 465px) {
   .catalogue-photos {
     width: 90%;
@@ -548,7 +557,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   font-size: 0.75rem;
   font-family: Poppins;
   font-weight: 500;
-  /*     input[type="submit"] {
+       input[type="submit"] {
            border-radius: 0.125rem;
            background: #D8D8D8;
            box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.02);
@@ -571,10 +580,10 @@ header .site__navigation .navigation .navigation--menu li a:hover {
               opacity: 1;
 
   }
-      } */
+      } 
 }
 .wpcf7-form input,
-.wpcf7-form textarea {
+.wpcf7-form-control {
   border-radius: 0.5rem;
   border: 1px solid #B8BBC2;
   width: 16rem;
@@ -587,7 +596,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
 }
 .wpcf7-form .btn {
   display: flex;
-  width: 272px;
+  width: 265px;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -713,7 +722,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
 }
 #load-more-container .btn {
   display: flex;
-  width: 272px;
+  width: 265px;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -802,13 +811,13 @@ header .site__navigation .navigation .navigation--menu li a:hover {
   position: absolute;
   z-index: 9999;
   font-size: 6rem;
-  font-family: "Space Mono", monospace;
+  font-family: "Space Mono";
   font-style: italic;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
   color: transparent; /* Rendre le texte transparent */
-  -webkit-text-stroke: 2px #FFF;
+  -webkit-text-stroke: 1px #FFF;
 }
 
 @media screen and (max-width: 465px) {
@@ -980,7 +989,7 @@ header .site__navigation .navigation .navigation--menu li a:hover {
 }
 
 .container {
-  max-width: 80vw;
+  max-width: 80%;
   height: auto;
   margin: 0 auto;
   padding: 20px 0;
